@@ -9,7 +9,7 @@ public abstract class SudokuAction implements SudokuActionInterface {
 
 	@Override
 	public void unexecute(SudokuDocument doc) {
-		// TODO Auto-generated method stub
+		doc.removeAction( this );
 
 	}
 

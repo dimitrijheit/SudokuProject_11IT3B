@@ -17,6 +17,7 @@ public class SetAction extends SudokuAction {
 
 	@Override
 	public void unexecute( SudokuDocument doc ) {
+		doc.clearValue( this.pos );
 		super.unexecute( doc );
 	}
 
