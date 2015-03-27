@@ -8,8 +8,8 @@ public class SudokuTest {
 		Controller c = new Controller(doc);
 		c.setValue( new Position( 7, 6),  4 );
 		c.setValue( new Position( 5, 6),  7 );
-		c.setValue( new Position( 8, 8),  4 );
-		doc.undoLastAction();
+		c.setValue( new Position( 3, 8),  2 );
+		c.undoLastAction();
 		
 		//doc.save( "foo.txt") ;
 	}

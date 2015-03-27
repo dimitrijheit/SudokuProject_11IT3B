@@ -12,18 +12,22 @@ public class SetValueAction extends SudokuAction {
 	}
 	@Override
 	public void execute( SudokuDocument doc ) throws Exception{
-		this.prevValue = doc.getValue( this.pos );
+		int startValue = doc.startData.getValue(pos);
+		if (startValue != -1) {
+			throw new RuntimeException("Cannot override start data!");
+		}
+		this.prevValue = doc.currentData.getValue( this.pos );
 		if ( value != -1 ) {
 			doc.validateValueSet(pos, value);
 			
 		}
-		doc.setValue( this.pos, this.value);
+		doc.currentData.setValue( this.pos, this.value);
 		super.execute( doc );
 	}
 
 	@Override
 	public void unexecute( SudokuDocument doc ) {
-		doc.setValue(pos, prevValue);
+		doc.currentData.setValue(pos, prevValue);
 		super.unexecute( doc );
 	}
 	@Override

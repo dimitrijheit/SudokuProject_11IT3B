@@ -7,27 +7,15 @@ import java.util.Arrays;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 public class SudokuDocument {
-	private SudokuData startData;
-	private SudokuData currentData;
-	private ArrayList<SudokuActionInterface> performedActions;
+	public SudokuData startData;
+	public SudokuData currentData;
+	public ArrayList<SudokuActionInterface> performedActions;
 
 	public SudokuDocument(SudokuData startData) throws CloneNotSupportedException {
 		this.startData = startData;
 		this.currentData = this.startData.copy();
 		this.performedActions = new ArrayList<SudokuActionInterface>();
 	}
-	public int getValue(Position pos) {
-		return this.currentData.getValue(pos);
-	}
-
-	public void setValue(Position pos, int value) {
-		int startValue = this.startData.getValue(pos);
-		if (startValue != -1) {
-			throw new RuntimeException("Cannot override start data!");
-		}
-		this.currentData.setValue(pos, value);
-	}
-	
 
 	public void validateValueSet(Position pos, int value) {
 		// Check row for equal entries
@@ -61,17 +49,6 @@ public class SudokuDocument {
 		this.performedActions.add(a);
 	}
 
-	public void undoLastAction() {
-		if ( performedActions.isEmpty()) {
-			return;
-		}
-
-		System.out.println("Undoing last Action");
-		SudokuActionInterface a = this.performedActions
-				.get(this.performedActions.size() - 1);
-		a.unexecute(this);
-
-	}
 	public void removeAction(SudokuActionInterface a) {
 		this.performedActions.remove(a);
 	}
