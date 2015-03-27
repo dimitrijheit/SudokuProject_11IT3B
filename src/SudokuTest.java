@@ -5,16 +5,13 @@ public class SudokuTest {
 		SudokuData startData = new SudokuData();
 		startData.setValue( new Position( 8, 1),  4 );
 		SudokuDocument doc = new SudokuDocument(startData);
-		SudokuActionInterface a1 = new SetAction( new Position( 7, 6),  4 );
-		SudokuActionInterface a2 = new SetAction( new Position( 5, 6),  7 );
-		SudokuActionInterface a3 = new SetAction( new Position( 8, 8),  4 );
-		a1.execute( doc );
-		a2.execute( doc );
-		a1.unexecute(doc);
-		a3.execute( doc );
+		Controller c = new Controller(doc);
+		c.setValue( new Position( 7, 6),  4 );
+		c.setValue( new Position( 5, 6),  7 );
+		c.setValue( new Position( 8, 8),  4 );
 		doc.undoLastAction();
 		
-		doc.save( "foo.txt") ;
+		//doc.save( "foo.txt") ;
 	}
 
 }

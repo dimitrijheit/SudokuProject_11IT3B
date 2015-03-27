@@ -16,59 +16,40 @@ public class SudokuDocument {
 		this.currentData = this.startData.copy();
 		this.performedActions = new ArrayList<SudokuActionInterface>();
 	}
+	public int getValue(Position pos) {
+		return this.currentData.getValue(pos);
+	}
 
-	public void clearValue(Position pos) {
+	public void setValue(Position pos, int value) {
 		int startValue = this.startData.getValue(pos);
 		if (startValue != -1) {
-			throw new RuntimeException("Cannot undo start data: " + pos + " " + startValue);
-		}
-		currentData.setValue(pos, -1);
-	}
-
-	public boolean setValue(Position pos, int value) {
-		int current_val = currentData.getValue(pos);
-		if (current_val != -1) {
-			throw new RuntimeException("Cannot set data twice");
-		}
-		boolean check = this.validateValueSet(pos, value);
-		if (!check) {
-			System.out.println("Entered incorrect data ");
-			System.out.println("currentData: " + this.currentData);
-			return false;
+			throw new RuntimeException("Cannot override start data!");
 		}
 		this.currentData.setValue(pos, value);
-		if (currentData.isFinished()) {
-			System.out.println("Sudoku finished");
-		}
-		return true;
 	}
+	
 
-	public boolean validateValueSet(Position pos, int value) {
+	public void validateValueSet(Position pos, int value) {
 		// Check row for equal entries
 		for (int entry : this.currentData.getRow(pos.getRow())) {
 			if (entry != -1 && entry == value) {
-				System.out.println("Value already in row");
-				return false;
+				 throw new RuntimeException("Value already in row");
 			}
 		}
 
 		// Check col for equal entries
 		for (int entry : this.currentData.getColumn(pos.getColumn())) {
 			if (entry != -1 && entry == value) {
-				System.out.println("Value already in column");
-				return false;
+				throw new RuntimeException("Value already in column");
 			}
 		}
 
 		// Check block for equal entries
 		for (int entry : this.currentData.getBlock(pos)) {
 			if (entry != -1 && entry == value) {
-				System.out.println("Value already in block");
-				return false;
+				throw new RuntimeException("Value already in block");
 			}
 		}
-
-		return true;
 	}
 	public void save( String filename ) throws IOException
 	{
@@ -81,7 +62,7 @@ public class SudokuDocument {
 	}
 
 	public void undoLastAction() {
-		if (this.performedActions.isEmpty()) {
+		if ( performedActions.isEmpty()) {
 			return;
 		}
 
@@ -91,7 +72,6 @@ public class SudokuDocument {
 		a.unexecute(this);
 
 	}
-
 	public void removeAction(SudokuActionInterface a) {
 		this.performedActions.remove(a);
 	}
